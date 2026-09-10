@@ -42,6 +42,15 @@ const Game = () => {
 			<button type="button" onClick={() => setDeck(createDeck)}>
 				Shuffle deck
 			</button>
+
+			<div className="cards">
+				<div className="card-back">
+					<div className="card-back__center" />
+				</div>
+				<div className="card-back">
+					<div className="card-back__center" />
+				</div>
+			</div>
 		</>
 	);
 };
