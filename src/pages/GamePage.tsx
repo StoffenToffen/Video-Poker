@@ -4,8 +4,10 @@ import "./GamePage.css";
 
 const Game = () => {
 	return (
-		<div>
-			<Card />
+		<div className="cards">
+			{new Array(5).fill(null).map((_, i) => (
+				<Card key={i} />
+			))}
 		</div>
 	);
 };
