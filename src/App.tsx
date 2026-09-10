@@ -1,7 +1,7 @@
 import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Game from "./pages/Game";
-import Home from "./pages/Home";
-import Rules from "./pages/Rules";
+import GamePage from "./pages/GamePage";
+import HomePage from "./pages/HomePage";
+import RulesPage from "./pages/RulesPage";
 
 import "./App.css";
 
@@ -13,9 +13,9 @@ function App() {
 			<Link to="/game">Game</Link>
 
 			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/rules" element={<Rules />} />
-				<Route path="/game" element={<Game />} />
+				<Route path="/" element={<HomePage />} />
+				<Route path="/rules" element={<RulesPage />} />
+				<Route path="/game" element={<GamePage />} />
 			</Routes>
 		</Router>
 	);
