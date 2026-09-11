@@ -1,4 +1,5 @@
 import Card from "../components/Card";
+import Nav from "../components/Nav";
 import { useGameStore } from "../zustand/gameStore";
 
 import "./GamePage.css";
@@ -31,7 +32,6 @@ const Game = () => {
 		setDeck(newDeck);
 		// Creates a new 52-card deck, then shuffles it with the Fisher-Yates method
 	};
-	// Creates a new 52-card deck, then shuffles it with the Fisher-Yates method
 
 	return (
 		<>
@@ -54,6 +54,8 @@ const Game = () => {
 			<button type="button" onClick={createDeck}>
 				Shuffle deck
 			</button>
+
+			<Nav />
 		</>
 	);
 };

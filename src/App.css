@@ -56,3 +56,19 @@ button {
   border: none;
   cursor: pointer;
 }
+
+.nav {
+  background-color: var(--color-secondary);
+  position: fixed;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  justify-items: center;
+  width: 100%;
+  padding: 0.5rem 1rem;
+}
+
+.nav__link__icon {
+  filter: invert(1);
+  width: 40px;
+}
