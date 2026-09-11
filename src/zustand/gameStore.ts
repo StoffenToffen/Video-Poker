@@ -5,16 +5,18 @@ import type { PlayingCardType } from "../types";
 interface GameStore {
   deck: PlayingCardType[];
   hand: PlayingCardType[];
-  discards: PlayingCardType[];
   bet: number;
+  selectedCards: PlayingCardType[];
   player: {
     name: string;
     balance: number;
   };
 
   setDeck: (newDeck: PlayingCardType[]) => void;
-  setDiscards: (cards: PlayingCardType[]) => void;
+  setHand: (selectedCards: PlayingCardType[]) => void;
   setBet: (number: number) => void;
+  setSelectedCards: (card: PlayingCardType) => void;
+  deselectCards: () => void;
   setPlayer: (playerInfo: { name: string; balance: number }) => void;
 }
 
@@ -23,8 +25,8 @@ export const useGameStore = create<GameStore>()(
     (set) => ({
       deck: [],
       hand: [],
-      discards: [],
       bet: 0,
+      selectedCards: [],
       player: {
         name: "Joe",
         balance: 100,
@@ -32,7 +34,20 @@ export const useGameStore = create<GameStore>()(
 
       setDeck: (newDeck) =>
         set(() => ({ hand: newDeck.splice(-5), deck: newDeck })),
-      setDiscards: (cards) => set(() => ({ discards: cards })),
+
+      setHand: (selectedCards) =>
+        set((state) => {
+          const hand = [
+            ...state.hand.filter((card) => selectedCards.includes(card)),
+          ];
+          const deck = [...state.deck];
+
+          while (hand.length < 5) {
+            hand.push(deck.pop()!);
+          }
+          return { hand, deck };
+        }),
+
       setBet: (number) =>
         set((state) => ({
           bet:
@@ -40,6 +55,18 @@ export const useGameStore = create<GameStore>()(
               ? state.bet
               : state.bet + number,
         })),
+
+      setSelectedCards: (card) =>
+        set((state) => ({
+          selectedCards: state.selectedCards.includes(card)
+            ? state.selectedCards.filter(
+                (selectedCard) => selectedCard !== card,
+              )
+            : [...state.selectedCards, card],
+        })),
+
+      deselectCards: () => set(() => ({ selectedCards: [] })),
+
       setPlayer: (playerInfo) =>
         set(() => ({
           player: {

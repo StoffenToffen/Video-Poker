@@ -3,8 +3,11 @@ import { useGameStore } from "../zustand/gameStore";
 const Controls = () => {
 	const hand = useGameStore((state) => state.hand);
 	const bet = useGameStore((state) => state.bet);
+	const selectedCards = useGameStore((state) => state.selectedCards);
 	const setDeck = useGameStore((state) => state.setDeck);
+	const setHand = useGameStore((state) => state.setHand);
 	const setBet = useGameStore((state) => state.setBet);
+	const deselectCards = useGameStore((state) => state.deselectCards);
 
 	const createDeck = () => {
 		const suits = ["spades", "clubs", "diamonds", "hearts"];
@@ -45,7 +48,8 @@ const Controls = () => {
 					type="button"
 					onClick={() => {
 						!bet && setBet(1);
-						createDeck();
+						deselectCards();
+						setHand(selectedCards);
 					}}
 					className="controls__btn--middle"
 				>

@@ -3,16 +3,12 @@ import diamondsIcon from "../assets/diamonds.svg";
 import heartsIcon from "../assets/hearts.svg";
 import spadesIcon from "../assets/spades.svg";
 import type { PlayingCardType } from "../types";
+import { useGameStore } from "../zustand/gameStore";
 
-const Card = ({
-	card,
-	selectedCards,
-	setSelectedCards,
-}: {
-	card: PlayingCardType;
-	selectedCards: PlayingCardType[];
-	setSelectedCards: React.Dispatch<React.SetStateAction<PlayingCardType[]>>;
-}) => {
+const Card = ({ card }: { card: PlayingCardType }) => {
+	const selectedCards = useGameStore((state) => state.selectedCards);
+	const setSelectedCards = useGameStore((state) => state.setSelectedCards);
+
 	const symbolToShow = (symbol: string) => {
 		switch (symbol) {
 			case "spades":
@@ -43,24 +39,10 @@ const Card = ({
 		// Converts the numbers 1, 11, 12, and 13 to card letters
 	};
 
-	const handleSetSelectedCards = (
-		selectedCards: PlayingCardType[],
-		card: PlayingCardType,
-	) => {
-		setSelectedCards(
-			selectedCards.includes(card)
-				? selectedCards.filter((selectedCard) => selectedCard !== card)
-				: [...selectedCards, card],
-		);
-		// Takes in selectedCards & card
-		// Returns void
-		// Removes or adds card to selectedCards
-	};
-
 	return (
 		<button
 			type="button"
-			onClick={() => handleSetSelectedCards(selectedCards, card)}
+			onClick={() => setSelectedCards(card)}
 			className={`card ${selectedCards.includes(card) && "card--selected"}`}
 		>
 			<span className="card__number">{valueToShow(card.value)}</span>
