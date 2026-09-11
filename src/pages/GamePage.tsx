@@ -55,6 +55,18 @@ const Game = () => {
 				Shuffle deck
 			</button>
 
+			<div className="controls">
+				<button type="button" className="controls__btn--left">
+					Bet-
+				</button>
+				<button type="button" className="controls__btn--middle">
+					Draw
+				</button>
+				<button type="button" className="controls__btn--right">
+					Bet+
+				</button>
+			</div>
+
 			<Nav />
 		</>
 	);
