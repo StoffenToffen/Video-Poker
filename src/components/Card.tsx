@@ -2,8 +2,17 @@ import clubsIcon from "../assets/clubs.svg";
 import diamondsIcon from "../assets/diamonds.svg";
 import heartsIcon from "../assets/hearts.svg";
 import spadesIcon from "../assets/spades.svg";
+import type { PlayingCardType } from "../types";
 
-const Card = ({ symbol, value }: { symbol: string; value: number }) => {
+const Card = ({
+	card,
+	selectedCards,
+	setSelectedCards,
+}: {
+	card: PlayingCardType;
+	selectedCards: PlayingCardType[];
+	setSelectedCards: React.Dispatch<React.SetStateAction<PlayingCardType[]>>;
+}) => {
 	const symbolToShow = (symbol: string) => {
 		switch (symbol) {
 			case "spades":
@@ -34,20 +43,38 @@ const Card = ({ symbol, value }: { symbol: string; value: number }) => {
 		// Converts the numbers 1, 11, 12, and 13 to card letters
 	};
 
+	const handleSetSelectedCards = (
+		selectedCards: PlayingCardType[],
+		card: PlayingCardType,
+	) => {
+		setSelectedCards(
+			selectedCards.includes(card)
+				? selectedCards.filter((selectedCard) => selectedCard !== card)
+				: [...selectedCards, card],
+		);
+		// Takes in selectedCards & card
+		// Returns void
+		// Removes or adds card to selectedCards
+	};
+
 	return (
-		<div className="card">
-			<span className="card__number">{valueToShow(value)}</span>
+		<button
+			type="button"
+			onClick={() => handleSetSelectedCards(selectedCards, card)}
+			className={`card ${selectedCards.includes(card) && "card--selected"}`}
+		>
+			<span className="card__number">{valueToShow(card.value)}</span>
 
 			<div className="card__icons">
 				<img
-					src={symbolToShow(symbol)}
-					alt={symbol}
+					src={symbolToShow(card.symbol)}
+					alt={card.symbol}
 					className="card__icons__icon"
 				/>
 			</div>
 
-			<span className="card__number">{valueToShow(value)}</span>
-		</div>
+			<span className="card__number">{valueToShow(card.value)}</span>
+		</button>
 	);
 };
 
