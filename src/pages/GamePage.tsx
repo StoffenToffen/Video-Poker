@@ -1,13 +1,14 @@
-import { useState } from "react";
 import Card from "../components/Card";
+import { useGameStore } from "../zustand/gameStore";
 
-import type { PlayingCardType } from "../types";
 import "./GamePage.css";
 
 const Game = () => {
-	const [deck, setDeck] = useState<PlayingCardType[]>(createDeck);
+	const hand = useGameStore((state) => state.hand);
+	const player = useGameStore((state) => state.player);
+	const setDeck = useGameStore((state) => state.setDeck);
 
-	function createDeck() {
+	const createDeck = () => {
 		const suits = ["spades", "clubs", "diamonds", "hearts"];
 		const newDeck = [];
 		let id = 0;
@@ -27,30 +28,31 @@ const Game = () => {
 			[newDeck[m], newDeck[i]] = [newDeck[i], newDeck[m]];
 		}
 
-		return newDeck;
-	}
+		setDeck(newDeck);
+	};
 	// Creates a new 52-card deck, then shuffles it with the Fisher-Yates method
 
 	return (
 		<>
+			<span>${player.balance}</span>
+
 			<div className="cards">
-				{deck.slice(-5).map(({ id, symbol, value }) => (
-					<Card key={id} symbol={symbol} value={value} />
-				))}
+				{hand.length
+					? hand
+							.slice(-5)
+							.map(({ id, symbol, value }) => (
+								<Card key={id} symbol={symbol} value={value} />
+							))
+					: new Array(5).fill(null).map((_, i) => (
+							<div key={i} className="card-back">
+								<div className="card-back__center" />
+							</div>
+						))}
 			</div>
 
-			<button type="button" onClick={() => setDeck(createDeck)}>
+			<button type="button" onClick={createDeck}>
 				Shuffle deck
 			</button>
-
-			<div className="cards">
-				<div className="card-back">
-					<div className="card-back__center" />
-				</div>
-				<div className="card-back">
-					<div className="card-back__center" />
-				</div>
-			</div>
 		</>
 	);
 };

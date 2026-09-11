@@ -12,7 +12,6 @@ interface GameStore {
   };
 
   setDeck: (newDeck: PlayingCardType[]) => void;
-  setHand: (newDeck: PlayingCardType[]) => void;
   setDiscards: (cards: PlayingCardType[]) => void;
   setPlayer: (playerInfo: { name: string; balance: number }) => void;
 }
@@ -24,12 +23,12 @@ export const useGameStore = create<GameStore>()(
       hand: [],
       discards: [],
       player: {
-        name: "",
-        balance: 0,
+        name: "Joe",
+        balance: 100,
       },
 
-      setDeck: (newDeck) => set(() => ({ deck: newDeck })),
-      setHand: (newDeck) => set(() => ({ hand: newDeck.slice(-5) })),
+      setDeck: (newDeck) =>
+        set(() => ({ hand: newDeck.splice(-5), deck: newDeck })),
       setDiscards: (cards) => set(() => ({ discards: cards })),
       setPlayer: (playerInfo) =>
         set(() => ({
