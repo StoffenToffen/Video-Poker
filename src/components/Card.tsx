@@ -4,7 +4,7 @@ import heartsIcon from "../assets/hearts.svg";
 import spadesIcon from "../assets/spades.svg";
 
 const Card = ({ symbol, value }: { symbol: string; value: number }) => {
-	const symbolToShow = () => {
+	const symbolToShow = (symbol: string) => {
 		switch (symbol) {
 			case "spades":
 				return spadesIcon;
@@ -15,9 +15,10 @@ const Card = ({ symbol, value }: { symbol: string; value: number }) => {
 			case "hearts":
 				return heartsIcon;
 		}
+		// Converts the four card symbols into their corresponding icon
 	};
 
-	const valueToShow = () => {
+	const valueToShow = (value: number) => {
 		switch (value) {
 			case 1:
 				return "A";
@@ -30,17 +31,22 @@ const Card = ({ symbol, value }: { symbol: string; value: number }) => {
 			default:
 				return value;
 		}
+		// Converts the numbers 1, 11, 12, and 13 to card letters
 	};
 
 	return (
 		<div className="card">
-			<span className="card__number">{valueToShow()}</span>
+			<span className="card__number">{valueToShow(value)}</span>
 
 			<div className="card__icons">
-				<img src={symbolToShow()} alt={symbol} className="card__icons__icon" />
+				<img
+					src={symbolToShow(symbol)}
+					alt={symbol}
+					className="card__icons__icon"
+				/>
 			</div>
 
-			<span className="card__number">{valueToShow()}</span>
+			<span className="card__number">{valueToShow(value)}</span>
 		</div>
 	);
 };

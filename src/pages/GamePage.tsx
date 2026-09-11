@@ -29,6 +29,7 @@ const Game = () => {
 		}
 
 		setDeck(newDeck);
+		// Creates a new 52-card deck, then shuffles it with the Fisher-Yates method
 	};
 	// Creates a new 52-card deck, then shuffles it with the Fisher-Yates method
 
