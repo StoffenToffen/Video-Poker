@@ -1,4 +1,5 @@
 import Card from "../components/Card";
+import Controls from "../components/Controls";
 import Nav from "../components/Nav";
 import { useGameStore } from "../zustand/gameStore";
 
@@ -6,36 +7,15 @@ import "./GamePage.css";
 
 const Game = () => {
 	const hand = useGameStore((state) => state.hand);
+	const bet = useGameStore((state) => state.bet);
 	const player = useGameStore((state) => state.player);
-	const setDeck = useGameStore((state) => state.setDeck);
-
-	const createDeck = () => {
-		const suits = ["spades", "clubs", "diamonds", "hearts"];
-		const newDeck = [];
-		let id = 0;
-
-		for (let i = 1; i <= 13; i++) {
-			for (const suit in suits) {
-				id++;
-				newDeck.push({ id: id, symbol: suits[suit], value: i });
-			}
-		}
-
-		let m = newDeck.length;
-		let i: number;
-
-		while (m) {
-			i = Math.floor(Math.random() * m--);
-			[newDeck[m], newDeck[i]] = [newDeck[i], newDeck[m]];
-		}
-
-		setDeck(newDeck);
-		// Creates a new 52-card deck, then shuffles it with the Fisher-Yates method
-	};
 
 	return (
 		<>
-			<span>${player.balance}</span>
+			<div className="counter">
+				<span>Bet: ${bet}</span>
+				<span>${player.balance}</span>
+			</div>
 
 			<div className="cards">
 				{hand.length
@@ -51,21 +31,7 @@ const Game = () => {
 						))}
 			</div>
 
-			<button type="button" onClick={createDeck}>
-				Shuffle deck
-			</button>
-
-			<div className="controls">
-				<button type="button" className="controls__btn--left">
-					Bet-
-				</button>
-				<button type="button" className="controls__btn--middle">
-					Draw
-				</button>
-				<button type="button" className="controls__btn--right">
-					Bet+
-				</button>
-			</div>
+			<Controls />
 
 			<Nav />
 		</>
