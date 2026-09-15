@@ -18,6 +18,7 @@ interface GameStore {
   setSelectedCards: (card: PlayingCardType) => void;
   deselectCards: () => void;
   setPlayer: (playerInfo: { name: string; balance: number }) => void;
+  updateBalance: (change: number) => void;
 }
 
 export const useGameStore = create<GameStore>()(
@@ -72,6 +73,14 @@ export const useGameStore = create<GameStore>()(
           player: {
             name: playerInfo.name,
             balance: playerInfo.balance,
+          },
+        })),
+
+      updateBalance: (change) =>
+        set((state) => ({
+          player: {
+            ...state.player,
+            balance: state.player.balance + change,
           },
         })),
     }),

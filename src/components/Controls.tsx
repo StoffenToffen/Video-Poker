@@ -8,6 +8,7 @@ const Controls = () => {
 	const setHand = useGameStore((state) => state.setHand);
 	const setBet = useGameStore((state) => state.setBet);
 	const deselectCards = useGameStore((state) => state.deselectCards);
+	const updateBalance = useGameStore((state) => state.updateBalance);
 
 	const createDeck = () => {
 		const suits = ["spades", "clubs", "diamonds", "hearts"];
@@ -50,6 +51,7 @@ const Controls = () => {
 						!bet && setBet(1);
 						deselectCards();
 						setHand(selectedCards);
+						updateBalance(-bet);
 					}}
 					className="controls__btn--middle"
 				>
@@ -61,6 +63,7 @@ const Controls = () => {
 					onClick={() => {
 						!bet && setBet(1);
 						createDeck();
+						updateBalance(-bet);
 					}}
 					className="controls__btn--middle"
 				>
