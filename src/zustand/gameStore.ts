@@ -7,6 +7,7 @@ interface GameStore {
   hand: PlayingCardType[];
   bet: number;
   selectedCards: PlayingCardType[];
+  isGameOver: boolean;
   player: {
     name: string;
     balance: number;
@@ -17,6 +18,7 @@ interface GameStore {
   setBet: (number: number) => void;
   setSelectedCards: (card: PlayingCardType) => void;
   deselectCards: () => void;
+  setIsGameOver: () => void;
   setPlayer: (playerInfo: { name: string; balance: number }) => void;
   updateBalance: (change: number) => void;
 }
@@ -28,6 +30,7 @@ export const useGameStore = create<GameStore>()(
       hand: [],
       bet: 0,
       selectedCards: [],
+      isGameOver: true,
       player: {
         name: "Joe",
         balance: 100,
@@ -67,6 +70,8 @@ export const useGameStore = create<GameStore>()(
         })),
 
       deselectCards: () => set(() => ({ selectedCards: [] })),
+
+      setIsGameOver: () => set((state) => ({ isGameOver: !state.isGameOver })),
 
       setPlayer: (playerInfo) =>
         set(() => ({

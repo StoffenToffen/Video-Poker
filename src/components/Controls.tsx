@@ -1,13 +1,14 @@
 import { useGameStore } from "../zustand/gameStore";
 
 const Controls = () => {
-	const hand = useGameStore((state) => state.hand);
 	const bet = useGameStore((state) => state.bet);
 	const selectedCards = useGameStore((state) => state.selectedCards);
+	const isGameOver = useGameStore((state) => state.isGameOver);
 	const setDeck = useGameStore((state) => state.setDeck);
 	const setHand = useGameStore((state) => state.setHand);
 	const setBet = useGameStore((state) => state.setBet);
 	const deselectCards = useGameStore((state) => state.deselectCards);
+	const setIsGameOver = useGameStore((state) => state.setIsGameOver);
 	const updateBalance = useGameStore((state) => state.updateBalance);
 
 	const createDeck = () => {
@@ -44,14 +45,15 @@ const Controls = () => {
 				Bet-
 			</button>
 
-			{hand.length ? (
+			{!isGameOver ? (
 				<button
 					type="button"
 					onClick={() => {
 						!bet && setBet(1);
 						deselectCards();
 						setHand(selectedCards);
-						updateBalance(-bet);
+						updateBalance(-bet || -1);
+						setIsGameOver();
 					}}
 					className="controls__btn--middle"
 				>
@@ -63,7 +65,8 @@ const Controls = () => {
 					onClick={() => {
 						!bet && setBet(1);
 						createDeck();
-						updateBalance(-bet);
+						updateBalance(-bet || -1);
+						setIsGameOver();
 					}}
 					className="controls__btn--middle"
 				>
