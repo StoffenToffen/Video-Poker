@@ -10,6 +10,10 @@ const Card = ({ card }: { card: PlayingCardType }) => {
 	const isGameOver = useGameStore((state) => state.isGameOver);
 	const setSelectedCards = useGameStore((state) => state.setSelectedCards);
 
+	/**
+	 * @param symbol as the card symbol hearts, spades, diamonds, or clubs
+	 * @returns icon import of the corresponding symbol
+	 */
 	const symbolToShow = (symbol: string) => {
 		switch (symbol) {
 			case "spades":
@@ -21,9 +25,12 @@ const Card = ({ card }: { card: PlayingCardType }) => {
 			case "hearts":
 				return heartsIcon;
 		}
-		// Converts the four card symbols into their corresponding icon
 	};
 
+	/**
+	 * @param value as the card value 1-13
+	 * @returns letters associated to ace, jack, queen, and king, or just the number
+	 */
 	const valueToShow = (value: number) => {
 		switch (value) {
 			case 1:
@@ -37,7 +44,6 @@ const Card = ({ card }: { card: PlayingCardType }) => {
 			default:
 				return value;
 		}
-		// Converts the numbers 1, 11, 12, and 13 to card letters
 	};
 
 	return (

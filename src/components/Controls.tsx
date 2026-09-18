@@ -11,6 +11,9 @@ const Controls = () => {
 	const setIsGameOver = useGameStore((state) => state.setIsGameOver);
 	const updateBalance = useGameStore((state) => state.updateBalance);
 
+	/**
+	 * @description Creates a new 52-card deck, then shuffles it with the Fisher-Yates method
+	 */
 	const createDeck = () => {
 		const suits = ["spades", "clubs", "diamonds", "hearts"];
 		const newDeck = [];
@@ -32,7 +35,6 @@ const Controls = () => {
 		}
 
 		setDeck(newDeck);
-		// Creates a new 52-card deck, then shuffles it with the Fisher-Yates method
 	};
 
 	return (

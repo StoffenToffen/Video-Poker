@@ -36,9 +36,19 @@ export const useGameStore = create<GameStore>()(
         balance: 100,
       },
 
+      /**
+       * @description Sets five cards to the hand and the rest to the deck
+       * @param newDeck as a 52 card deck using PlayingCardType
+       * @returns hand and deck
+       */
       setDeck: (newDeck) =>
         set(() => ({ hand: newDeck.splice(-5), deck: newDeck })),
 
+      /**
+       * @description Removes unselected cards from hand and adds up to five back from deck
+       * @param selectedCards as the cards selected from the hand
+       * @returns hand and deck
+       */
       setHand: (selectedCards) =>
         set((state) => {
           const hand = [
@@ -52,6 +62,11 @@ export const useGameStore = create<GameStore>()(
           return { hand, deck };
         }),
 
+      /**
+       * @description Updates bet amount to anything between 0 and 5
+       * @param number as the amount to change bet by
+       * @returns bet
+       */
       setBet: (number) =>
         set((state) => ({
           bet:
@@ -60,6 +75,11 @@ export const useGameStore = create<GameStore>()(
               : state.bet + number,
         })),
 
+      /**
+       * @description Adds or removes a card from hand to selectedCards
+       * @param card as the clicked card in hand
+       * @returns selectedCards
+       */
       setSelectedCards: (card) =>
         set((state) => ({
           selectedCards: state.selectedCards.includes(card)
@@ -69,10 +89,20 @@ export const useGameStore = create<GameStore>()(
             : [...state.selectedCards, card],
         })),
 
+      /**
+       * @returns selectedCards
+       */
       deselectCards: () => set(() => ({ selectedCards: [] })),
 
+      /**
+       * @returns isGameOver
+       */
       setIsGameOver: () => set((state) => ({ isGameOver: !state.isGameOver })),
 
+      /**
+       * @param playerInfo as name and balance
+       * @returns player
+       */
       setPlayer: (playerInfo) =>
         set(() => ({
           player: {
@@ -81,6 +111,11 @@ export const useGameStore = create<GameStore>()(
           },
         })),
 
+      /**
+       * @description Updates the player's balance
+       * @param change as the amount to change the balance by
+       * @returns player
+       */
       updateBalance: (change) =>
         set((state) => ({
           player: {
