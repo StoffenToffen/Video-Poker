@@ -33,11 +33,14 @@ const Game = () => {
 		if (hand.every((card) => card.symbol === hand[0].symbol)) {
 			playersHand = "Flush";
 			// Is straight flush?
-			if (handValues[0] - handValues[handValues.length - 1] === 4) {
-				playersHand = "Straight flush";
-				// Is royal flush?
-				if (handValues[0] === 13) playersHand = "Royal flush";
-			}
+			if (handValues[0] - handValues[4] === 4) playersHand = "Straight flush";
+			// Is royal flush?
+			else if (
+				handValues[0] === 13 &&
+				handValues[3] === 10 &&
+				handValues[4] === 1
+			)
+				playersHand = "Royal flush";
 		} else {
 			// Is pairs?
 			const pair1: number[] = [];
@@ -55,7 +58,12 @@ const Game = () => {
 			else if (pair2.length === 2) playersHand = "Two pairs";
 			else if (pair1.length === 2) playersHand = "One pair";
 			// Is straight?
-			else if (handValues[0] - handValues[handValues.length - 1] === 4)
+			else if (handValues[0] - handValues[4] === 4) playersHand = "Straight";
+			else if (
+				handValues[0] === 13 &&
+				handValues[3] === 10 &&
+				handValues[4] === 1
+			)
 				playersHand = "Straight";
 		}
 		return playersHand;
