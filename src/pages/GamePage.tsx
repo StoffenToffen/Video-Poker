@@ -78,14 +78,16 @@ const Game = () => {
 
 			{getPlayerHand(hand)}
 
-			<div className="cards">
-				{hand.length
-					? hand.slice(-5).map((card) => <Card key={card.id} card={card} />)
-					: new Array(5).fill(null).map((_, i) => (
-							<div key={i} className="card-back">
-								<div className="card-back__center" />
-							</div>
-						))}
+			<div className="cards-container">
+				<div className="cards">
+					{hand.length
+						? hand.slice(-5).map((card) => <Card key={card.id} card={card} />)
+						: new Array(5).fill(null).map((_, i) => (
+								<div key={i} className="card-back">
+									<div className="card-back__center" />
+								</div>
+							))}
+				</div>
 			</div>
 
 			<Controls />

@@ -6,11 +6,18 @@
   font-weight: 500;
 }
 
+.cards-container {
+  height: calc(100vh - 13.5rem);
+  display: flex;
+  align-items: center;
+}
+
 .cards {
+  flex-grow: 1;
   display: grid;
   grid-template-columns: repeat(
     auto-fill,
-    minmax(min(100%, max(120px, 100% / 5 - 1rem)), 1fr)
+    minmax(min(100% / 4, max(120px, 100% / 5 - 1rem)), 1fr)
   );
   gap: 2rem 1rem;
   margin: 1rem;
