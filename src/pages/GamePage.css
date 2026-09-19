@@ -13,6 +13,25 @@
   height: 2rem;
 }
 
+.message {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: brightness(0.8);
+  z-index: 1;
+  font-size: 2rem;
+  font-weight: 500;
+
+  & span {
+    background-color: var(--color-secondary);
+    font-family: var(--font-heading);
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+}
+
 .cards-container {
   height: calc(100vh - 13.5rem);
   display: flex;

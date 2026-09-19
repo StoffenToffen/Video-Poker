@@ -79,7 +79,9 @@ const Game = () => {
 
 			<div className="poker-hand">{getPlayerHand(hand)}</div>
 
-			<div>{message}</div>
+			<div className="message">
+				<span>{message}</span>
+			</div>
 
 			<div className="cards-container">
 				<div className="cards">
