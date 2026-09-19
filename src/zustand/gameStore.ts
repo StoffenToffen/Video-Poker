@@ -8,6 +8,7 @@ interface GameStore {
   bet: number;
   selectedCards: PlayingCardType[];
   isGameOver: boolean;
+  message: string;
   player: {
     name: string;
     balance: number;
@@ -19,6 +20,7 @@ interface GameStore {
   setSelectedCards: (card: PlayingCardType) => void;
   deselectCards: () => void;
   setIsGameOver: () => void;
+  setMessage: (newMessage: string) => void;
   setPlayer: (playerInfo: { name: string; balance: number }) => void;
   updateBalance: (change: number) => void;
 }
@@ -28,9 +30,10 @@ export const useGameStore = create<GameStore>()(
     (set) => ({
       deck: [],
       hand: [],
-      bet: 0,
+      bet: 1,
       selectedCards: [],
       isGameOver: true,
+      message: "",
       player: {
         name: "Joe",
         balance: 100,
@@ -63,17 +66,10 @@ export const useGameStore = create<GameStore>()(
         }),
 
       /**
-       * @description Updates bet amount to anything between 0 and 5
        * @param number as the amount to change bet by
        * @returns bet
        */
-      setBet: (number) =>
-        set((state) => ({
-          bet:
-            state.bet + number < 0 || state.bet + number > 5
-              ? state.bet
-              : state.bet + number,
-        })),
+      setBet: (number) => set((state) => ({ bet: state.bet + number })),
 
       /**
        * @description Adds or removes a card from hand to selectedCards
@@ -98,6 +94,12 @@ export const useGameStore = create<GameStore>()(
        * @returns isGameOver
        */
       setIsGameOver: () => set((state) => ({ isGameOver: !state.isGameOver })),
+
+      /**
+       * @param newMessage as the text to show
+       * @returns message
+       */
+      setMessage: (newMessage) => set(() => ({ message: newMessage })),
 
       /**
        * @param playerInfo as name and balance

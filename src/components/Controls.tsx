@@ -4,11 +4,13 @@ const Controls = () => {
 	const bet = useGameStore((state) => state.bet);
 	const selectedCards = useGameStore((state) => state.selectedCards);
 	const isGameOver = useGameStore((state) => state.isGameOver);
+	const player = useGameStore((state) => state.player);
 	const setDeck = useGameStore((state) => state.setDeck);
 	const setHand = useGameStore((state) => state.setHand);
 	const setBet = useGameStore((state) => state.setBet);
 	const deselectCards = useGameStore((state) => state.deselectCards);
 	const setIsGameOver = useGameStore((state) => state.setIsGameOver);
+	const setMessage = useGameStore((state) => state.setMessage);
 	const updateBalance = useGameStore((state) => state.updateBalance);
 
 	/**
@@ -41,6 +43,7 @@ const Controls = () => {
 		<div className="controls">
 			<button
 				type="button"
+				disabled={bet < 2}
 				onClick={() => setBet(-1)}
 				className="controls__btn--left"
 			>
@@ -51,10 +54,8 @@ const Controls = () => {
 				<button
 					type="button"
 					onClick={() => {
-						!bet && setBet(1);
 						deselectCards();
 						setHand(selectedCards);
-						updateBalance(-bet || -1);
 						setIsGameOver();
 					}}
 					className="controls__btn--middle"
@@ -65,10 +66,12 @@ const Controls = () => {
 				<button
 					type="button"
 					onClick={() => {
-						!bet && setBet(1);
-						createDeck();
-						updateBalance(-bet || -1);
-						setIsGameOver();
+						player.balance < bet
+							? setMessage("ur broke lmao")
+							: (createDeck(),
+								updateBalance(-bet),
+								setIsGameOver(),
+								setMessage(""));
 					}}
 					className="controls__btn--middle"
 				>
@@ -78,6 +81,7 @@ const Controls = () => {
 
 			<button
 				type="button"
+				disabled={bet > 4}
 				onClick={() => setBet(1)}
 				className="controls__btn--right"
 			>

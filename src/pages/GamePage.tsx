@@ -10,6 +10,7 @@ const Game = () => {
 	const hand = useGameStore((state) => state.hand);
 	const bet = useGameStore((state) => state.bet);
 	const player = useGameStore((state) => state.player);
+	const message = useGameStore((state) => state.message);
 
 	/**
 	 * @description Sorts the values of the player's hand and checks for each possible poker hand
@@ -77,6 +78,8 @@ const Game = () => {
 			</div>
 
 			<div className="poker-hand">{getPlayerHand(hand)}</div>
+
+			<div>{message}</div>
 
 			<div className="cards-container">
 				<div className="cards">
