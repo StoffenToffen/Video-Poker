@@ -6,6 +6,13 @@
   font-weight: 500;
 }
 
+.poker-hand {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 500;
+  height: 2rem;
+}
+
 .cards-container {
   height: calc(100vh - 13.5rem);
   display: flex;
@@ -94,6 +101,7 @@
 .controls {
   position: fixed;
   bottom: 3.75rem;
+  z-index: 10;
   display: grid;
   grid-template-columns: 1fr 1.5fr 1fr;
   width: 100%;

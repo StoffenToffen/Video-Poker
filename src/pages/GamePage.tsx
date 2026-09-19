@@ -76,7 +76,7 @@ const Game = () => {
 				<span>${player.balance}</span>
 			</div>
 
-			{getPlayerHand(hand)}
+			<div className="poker-hand">{getPlayerHand(hand)}</div>
 
 			<div className="cards-container">
 				<div className="cards">
