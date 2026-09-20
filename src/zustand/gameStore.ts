@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { getRank } from "../functions";
 import type { PlayingCardType } from "../types";
 
 interface GameStore {
@@ -7,7 +8,7 @@ interface GameStore {
   hand: PlayingCardType[];
   bet: number;
   selectedCards: PlayingCardType[];
-  isGameOver: boolean;
+  rank: string;
   message: string;
   player: {
     name: string;
@@ -19,7 +20,6 @@ interface GameStore {
   setBet: (number: number) => void;
   setSelectedCards: (card: PlayingCardType) => void;
   deselectCards: () => void;
-  setIsGameOver: () => void;
   setMessage: (newMessage: string) => void;
   setPlayer: (playerInfo: { name: string; balance: number }) => void;
   updateBalance: (change: number) => void;
@@ -32,7 +32,7 @@ export const useGameStore = create<GameStore>()(
       hand: [],
       bet: 1,
       selectedCards: [],
-      isGameOver: true,
+      rank: "",
       message: "",
       player: {
         name: "Joe",
@@ -40,17 +40,22 @@ export const useGameStore = create<GameStore>()(
       },
 
       /**
-       * @description Sets five cards to the hand and the rest to the deck
+       * @description Sets five cards to the hand and the rest to the deck, then gets the new hand's rank
        * @param newDeck as a 52 card deck using PlayingCardType
-       * @returns hand and deck
+       * @returns hand, deck and rank
        */
       setDeck: (newDeck) =>
-        set(() => ({ hand: newDeck.splice(-5), deck: newDeck })),
+        set(() => {
+          const hand = newDeck.splice(-5);
+          const deck = newDeck;
+          const rank = getRank(hand);
+          return { hand, deck, rank };
+        }),
 
       /**
-       * @description Removes unselected cards from hand and adds up to five back from deck
+       * @description Removes unselected cards from hand and adds up to five back from deck, then gets the new hand's rank and updates message
        * @param selectedCards as the cards selected from the hand
-       * @returns hand and deck
+       * @returns hand, deck, rank, and message
        */
       setHand: (selectedCards) =>
         set((state) => {
@@ -62,7 +67,13 @@ export const useGameStore = create<GameStore>()(
           while (hand.length < 5) {
             hand.push(deck.pop()!);
           }
-          return { hand, deck };
+
+          const rank = getRank(hand);
+
+          let message = "";
+          if (rank) message = "You won";
+          else message = "Game over";
+          return { hand, deck, rank, message };
         }),
 
       /**
@@ -89,11 +100,6 @@ export const useGameStore = create<GameStore>()(
        * @returns selectedCards
        */
       deselectCards: () => set(() => ({ selectedCards: [] })),
-
-      /**
-       * @returns isGameOver
-       */
-      setIsGameOver: () => set((state) => ({ isGameOver: !state.isGameOver })),
 
       /**
        * @param newMessage as the text to show

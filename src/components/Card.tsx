@@ -7,7 +7,7 @@ import { useGameStore } from "../zustand/gameStore";
 
 const Card = ({ card }: { card: PlayingCardType }) => {
 	const selectedCards = useGameStore((state) => state.selectedCards);
-	const isGameOver = useGameStore((state) => state.isGameOver);
+	const message = useGameStore((state) => state.message);
 	const setSelectedCards = useGameStore((state) => state.setSelectedCards);
 
 	/**
@@ -50,7 +50,7 @@ const Card = ({ card }: { card: PlayingCardType }) => {
 		<button
 			type="button"
 			onClick={() => setSelectedCards(card)}
-			disabled={isGameOver}
+			disabled={!!message}
 			className={`card ${selectedCards.includes(card) && "card--selected"}`}
 		>
 			<span className="card__number">{valueToShow(card.value)}</span>
