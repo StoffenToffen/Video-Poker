@@ -1,57 +1,58 @@
-import { useState } from "react";
 import Card from "../components/Card";
+import Controls from "../components/Controls";
+import Nav from "../components/Nav";
+import { useGameStore } from "../zustand/gameStore";
 
-import type { PlayingCardType } from "../types";
 import "./GamePage.css";
 
 const Game = () => {
-	const [deck, setDeck] = useState<PlayingCardType[]>(createDeck);
+	const hand = useGameStore((state) => state.hand);
+	const bet = useGameStore((state) => state.bet);
+	const player = useGameStore((state) => state.player);
+	const rank = useGameStore((state) => state.rank);
+	const message = useGameStore((state) => state.message);
 
-	function createDeck() {
-		const suits = ["spades", "clubs", "diamonds", "hearts"];
-		const newDeck = [];
-		let id = 0;
-
-		for (let i = 1; i <= 13; i++) {
-			for (const suit in suits) {
-				id++;
-				newDeck.push({ id: id, symbol: suits[suit], value: i });
-			}
-		}
-
-		let m = newDeck.length;
-		let i: number;
-
-		while (m) {
-			i = Math.floor(Math.random() * m--);
-			[newDeck[m], newDeck[i]] = [newDeck[i], newDeck[m]];
-		}
-
-		return newDeck;
-	}
-	// Creates a new 52-card deck, then shuffles it with the Fisher-Yates method
+	/**
+	 * @description Makes the first letter of a string uppercase, and adds spaces between capital letters
+	 * @param string as the player's hand rank
+	 * @returns string
+	 */
+	const formatRankTxt = (string: string) => {
+		const newString = string[0].toUpperCase() + string.slice(1);
+		return newString.split(/(?=[A-Z])/).join(" ");
+	};
 
 	return (
-		<>
-			<div className="cards">
-				{deck.slice(-5).map(({ id, symbol, value }) => (
-					<Card key={id} symbol={symbol} value={value} />
-				))}
+		<main className="container--md">
+			<div className="counter container--sm">
+				<span>Bet: ${bet}</span>
+				<span>${player.balance}</span>
 			</div>
 
-			<button type="button" onClick={() => setDeck(createDeck)}>
-				Shuffle deck
-			</button>
-
-			<div className="cards">
-				<div className="card-back">
-					<div className="card-back__center" />
+			{message && (
+				<div className="message">
+					<span>{message}</span>
 				</div>
-				<div className="card-back">
-					<div className="card-back__center" />
+			)}
+
+			<div className="cards-container">
+				<div className="poker-hand">{rank && formatRankTxt(rank)}</div>
+
+				<div className="cards">
+					{hand.length
+						? hand.slice(-5).map((card) => <Card key={card.id} card={card} />)
+						: new Array(5).fill(null).map((_, i) => (
+								<div key={i} className="card-back">
+									<div className="card-back__center" />
+								</div>
+							))}
 				</div>
 			</div>
-		</>
+
+			<Controls />
+
+			<Nav />
+		</main>
 	);
 };
 

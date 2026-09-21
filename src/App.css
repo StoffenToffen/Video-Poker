@@ -49,10 +49,38 @@ body {
 
 main {
   flex-grow: 1;
+  margin: 0 auto;
 }
 
 button {
   background: none;
   border: none;
   cursor: pointer;
+}
+
+.nav {
+  background-color: var(--color-secondary);
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  translate: -50% 0;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  justify-items: center;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  z-index: 5;
+}
+
+.nav__link__icon {
+  filter: invert(1);
+  width: 40px;
+}
+
+.container--sm {
+  max-width: 800px;
+}
+
+.container--md {
+  max-width: 1200px;
 }
