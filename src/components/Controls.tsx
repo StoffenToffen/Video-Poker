@@ -43,7 +43,7 @@ const Controls = () => {
 		<div className="controls">
 			<button
 				type="button"
-				disabled={bet < 2}
+				disabled={bet < 2 || (!message && !!hand.length)}
 				onClick={() => setBet(-1)}
 				className="controls__btn--left"
 			>
@@ -77,7 +77,7 @@ const Controls = () => {
 
 			<button
 				type="button"
-				disabled={bet > 4}
+				disabled={bet > 4 || (!message && !!hand.length)}
 				onClick={() => setBet(1)}
 				className="controls__btn--right"
 			>
