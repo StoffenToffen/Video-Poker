@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { getRank } from "../functions";
-import type { PlayingCardType } from "../types";
+import { getPayout, getRank } from "../functions";
+import type { PlayingCardType, PokerHandType } from "../types";
 
 interface GameStore {
   deck: PlayingCardType[];
@@ -15,8 +15,8 @@ interface GameStore {
     balance: number;
   };
 
-  setDeck: (newDeck: PlayingCardType[]) => void;
-  setHand: (selectedCards: PlayingCardType[]) => void;
+  startGame: (newDeck: PlayingCardType[]) => void;
+  endGame: (selectedCards: PlayingCardType[]) => void;
   setBet: (number: number) => void;
   setSelectedCards: (card: PlayingCardType) => void;
   deselectCards: () => void;
@@ -44,7 +44,7 @@ export const useGameStore = create<GameStore>()(
        * @param newDeck as a 52 card deck using PlayingCardType
        * @returns hand, deck and rank
        */
-      setDeck: (newDeck) =>
+      startGame: (newDeck) =>
         set(() => {
           const hand = newDeck.splice(-5);
           const deck = newDeck;
@@ -57,7 +57,7 @@ export const useGameStore = create<GameStore>()(
        * @param selectedCards as the cards selected from the hand
        * @returns hand, deck, rank, and message
        */
-      setHand: (selectedCards) =>
+      endGame: (selectedCards) =>
         set((state) => {
           const hand = [
             ...state.hand.filter((card) => selectedCards.includes(card)),
@@ -69,10 +69,15 @@ export const useGameStore = create<GameStore>()(
           }
 
           const rank = getRank(hand);
-
           let message = "";
-          if (rank) message = "You won";
-          else message = "Game over";
+
+          if (rank) {
+            const payout = getPayout(rank as PokerHandType);
+
+            state.updateBalance(payout * state.bet);
+            message = `You won $${payout * state.bet}`;
+          } else message = "Game over";
+
           return { hand, deck, rank, message };
         }),
 

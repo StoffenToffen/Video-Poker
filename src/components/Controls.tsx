@@ -6,8 +6,8 @@ const Controls = () => {
 	const selectedCards = useGameStore((state) => state.selectedCards);
 	const message = useGameStore((state) => state.message);
 	const player = useGameStore((state) => state.player);
-	const setDeck = useGameStore((state) => state.setDeck);
-	const setHand = useGameStore((state) => state.setHand);
+	const startGame = useGameStore((state) => state.startGame);
+	const endGame = useGameStore((state) => state.endGame);
 	const setBet = useGameStore((state) => state.setBet);
 	const deselectCards = useGameStore((state) => state.deselectCards);
 	const setMessage = useGameStore((state) => state.setMessage);
@@ -36,7 +36,7 @@ const Controls = () => {
 			[newDeck[m], newDeck[i]] = [newDeck[i], newDeck[m]];
 		}
 
-		setDeck(newDeck);
+		startGame(newDeck);
 	};
 
 	return (
@@ -55,7 +55,7 @@ const Controls = () => {
 					type="button"
 					onClick={() => {
 						deselectCards();
-						setHand(selectedCards);
+						endGame(selectedCards);
 					}}
 					className="controls__btn--middle"
 				>

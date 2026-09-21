@@ -12,6 +12,11 @@ const Game = () => {
 	const rank = useGameStore((state) => state.rank);
 	const message = useGameStore((state) => state.message);
 
+	const formatRankTxt = (string: string) => {
+		const newString = string[0].toUpperCase() + string.slice(1);
+		return newString.split(/(?=[A-Z])/).join(" ");
+	};
+
 	return (
 		<main>
 			<div className="counter">
@@ -19,7 +24,7 @@ const Game = () => {
 				<span>${player.balance}</span>
 			</div>
 
-			<div className="poker-hand">{rank}</div>
+			<div className="poker-hand">{rank && formatRankTxt(rank)}</div>
 
 			{message && (
 				<div className="message">
