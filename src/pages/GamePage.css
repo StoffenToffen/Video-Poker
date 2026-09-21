@@ -10,7 +10,7 @@
   text-align: center;
   font-size: 1.5rem;
   font-weight: 500;
-  height: 2rem;
+  margin-bottom: 1rem;
 }
 
 .message {
@@ -21,13 +21,14 @@
   align-items: center;
   backdrop-filter: brightness(0.8);
   z-index: 1;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 500;
 
   & span {
     background-color: var(--color-secondary);
     font-family: var(--font-heading);
-    padding: 1rem;
+    margin-bottom: 3rem;
+    padding: 0.5rem 1rem;
     border-radius: 1rem;
   }
 }
@@ -35,11 +36,11 @@
 .cards-container {
   height: calc(100vh - 13.5rem);
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .cards {
-  flex-grow: 1;
   display: grid;
   grid-template-columns: repeat(
     auto-fill,

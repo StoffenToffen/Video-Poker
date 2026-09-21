@@ -54,7 +54,6 @@ const Controls = () => {
 				<button
 					type="button"
 					onClick={() => {
-						deselectCards();
 						endGame(selectedCards);
 					}}
 					className="controls__btn--middle"
@@ -67,7 +66,10 @@ const Controls = () => {
 					onClick={() => {
 						player.balance < bet
 							? setMessage("ur broke lmao")
-							: (createDeck(), updateBalance(-bet), setMessage(""));
+							: (deselectCards(),
+								createDeck(),
+								updateBalance(-bet),
+								setMessage(""));
 					}}
 					className="controls__btn--middle"
 				>

@@ -24,8 +24,6 @@ const Game = () => {
 				<span>${player.balance}</span>
 			</div>
 
-			<div className="poker-hand">{rank && formatRankTxt(rank)}</div>
-
 			{message && (
 				<div className="message">
 					<span>{message}</span>
@@ -33,6 +31,8 @@ const Game = () => {
 			)}
 
 			<div className="cards-container">
+				<div className="poker-hand">{rank && formatRankTxt(rank)}</div>
+
 				<div className="cards">
 					{hand.length
 						? hand.slice(-5).map((card) => <Card key={card.id} card={card} />)
