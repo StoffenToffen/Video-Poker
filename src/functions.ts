@@ -57,6 +57,11 @@ export const getRank = (hand: PlayingCardType[]): string => {
   return playersHand;
 };
 
+/**
+ * @description Gets the payout associated with the player's hand rank
+ * @param rank as the player's hand rank
+ * @returns number
+ */
 export const getPayout = (rank: PokerHandType) => {
   const PokerHand: Record<PokerHandType, number> = {
     royalFlush: 250,

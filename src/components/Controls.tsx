@@ -40,7 +40,7 @@ const Controls = () => {
 	};
 
 	return (
-		<div className="controls">
+		<div className="controls container--sm">
 			<button
 				type="button"
 				disabled={bet < 2 || (!message && !!hand.length)}

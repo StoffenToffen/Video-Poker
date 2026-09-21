@@ -8,7 +8,7 @@ const Nav = () => {
 	const path = location.pathname;
 
 	return (
-		<nav className="nav">
+		<nav className="nav container--sm">
 			<Link to="/">
 				<img src={logoutIcon} alt="Log out" className="nav__link__icon" />
 			</Link>

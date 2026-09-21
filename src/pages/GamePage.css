@@ -1,7 +1,8 @@
 .counter {
   display: flex;
   justify-content: space-between;
-  padding: 1rem;
+  margin: 0 auto;
+  padding: 2rem 2rem 0;
   font-size: 1.5rem;
   font-weight: 500;
 }
@@ -34,7 +35,7 @@
 }
 
 .cards-container {
-  height: calc(100vh - 13.5rem);
+  height: calc(100vh - 12rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -121,6 +122,8 @@
 .controls {
   position: fixed;
   bottom: 3.75rem;
+  left: 50%;
+  translate: -50% 0;
   z-index: 10;
   display: grid;
   grid-template-columns: 1fr 1.5fr 1fr;

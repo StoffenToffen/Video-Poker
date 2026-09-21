@@ -49,6 +49,7 @@ body {
 
 main {
   flex-grow: 1;
+  margin: 0 auto;
 }
 
 button {
@@ -61,6 +62,8 @@ button {
   background-color: var(--color-secondary);
   position: fixed;
   bottom: 0;
+  left: 50%;
+  translate: -50% 0;
   display: grid;
   grid-template-columns: 1fr 1.5fr 1fr;
   justify-items: center;
@@ -72,4 +75,12 @@ button {
 .nav__link__icon {
   filter: invert(1);
   width: 40px;
+}
+
+.container--sm {
+  max-width: 800px;
+}
+
+.container--md {
+  max-width: 1200px;
 }

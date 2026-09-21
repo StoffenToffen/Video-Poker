@@ -12,14 +12,19 @@ const Game = () => {
 	const rank = useGameStore((state) => state.rank);
 	const message = useGameStore((state) => state.message);
 
+	/**
+	 * @description Makes the first letter of a string uppercase, and adds spaces between capital letters
+	 * @param string as the player's hand rank
+	 * @returns string
+	 */
 	const formatRankTxt = (string: string) => {
 		const newString = string[0].toUpperCase() + string.slice(1);
 		return newString.split(/(?=[A-Z])/).join(" ");
 	};
 
 	return (
-		<main>
-			<div className="counter">
+		<main className="container--md">
+			<div className="counter container--sm">
 				<span>Bet: ${bet}</span>
 				<span>${player.balance}</span>
 			</div>
