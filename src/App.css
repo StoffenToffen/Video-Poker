@@ -50,6 +50,7 @@ body {
 main {
   flex-grow: 1;
   margin: 0 auto;
+  min-height: 100vh;
 }
 
 button {
@@ -72,15 +73,28 @@ button {
   z-index: 5;
 }
 
+.nav--rounded {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
 .nav__link__icon {
   filter: invert(1);
   width: 40px;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0.5rem;
+}
+
 .container--sm {
-  max-width: 800px;
+  max-width: 400px;
 }
 
 .container--md {
-  max-width: 1200px;
+  max-width: 800px;
 }
