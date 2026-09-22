@@ -8,11 +8,11 @@ const Nav = () => {
 	const path = location.pathname;
 
 	return (
-		<nav className="nav container--sm">
+		<nav className={`nav container--sm ${path === "/rules" && "nav--rounded"}`}>
 			<Link to="/">
 				<img src={logoutIcon} alt="Log out" className="nav__link__icon" />
 			</Link>
-			{path === "rules" ? (
+			{path === "/rules" ? (
 				<Link to="/game">
 					<img src={closeIcon} alt="Close rules" className="nav__link__icon" />
 				</Link>
