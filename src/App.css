@@ -50,6 +50,7 @@ body {
 main {
   flex-grow: 1;
   margin: 0 auto;
+  min-height: 100vh;
 }
 
 button {
@@ -77,10 +78,18 @@ button {
   width: 40px;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0.5rem;
+}
+
 .container--sm {
-  max-width: 800px;
+  max-width: 400px;
 }
 
 .container--md {
-  max-width: 1200px;
+  max-width: 800px;
 }
