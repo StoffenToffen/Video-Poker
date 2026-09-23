@@ -39,8 +39,8 @@ export const useGameStore = create<GameStore>()(
       rank: "",
       message: "",
       currentPlayer: {
-        name: "Joe",
-        balance: 100,
+        name: "",
+        balance: 0,
       },
       players: [],
 

@@ -10,6 +10,7 @@ const Home = () => {
 	const [error, setError] = useState("");
 
 	const players = useGameStore((state) => state.players);
+	const setCurrentPlayer = useGameStore((state) => state.setCurrentPlayer);
 	const register = useGameStore((state) => state.register);
 
 	const navigate = useNavigate();
@@ -85,7 +86,14 @@ const Home = () => {
 						<ul className="home__users">
 							{players.map((player) => (
 								<li key={player.name}>
-									<button type="button" className="home__user__btn">
+									<button
+										type="button"
+										onClick={() => {
+											setCurrentPlayer(player);
+											navigate("/game");
+										}}
+										className="home__user__btn"
+									>
 										<span>{player.name}</span>
 										<span>${player.balance}</span>
 									</button>

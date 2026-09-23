@@ -1,17 +1,27 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import bookIcon from "../assets/book.svg";
 import closeIcon from "../assets/close.svg";
 import logoutIcon from "../assets/logout.svg";
 import speakerOnIcon from "../assets/speaker-on.svg";
+import { useGameStore } from "../zustand/gameStore";
 
 const Nav = () => {
+	const setCurrentPlayer = useGameStore((state) => state.setCurrentPlayer);
+
+	const navigate = useNavigate();
 	const path = location.pathname;
 
 	return (
 		<nav className={`nav container--sm ${path === "/rules" && "nav--rounded"}`}>
-			<Link to="/">
+			<button
+				type="button"
+				onClick={() => {
+					setCurrentPlayer({ name: "", balance: 0 });
+					navigate("/");
+				}}
+			>
 				<img src={logoutIcon} alt="Log out" className="nav__link__icon" />
-			</Link>
+			</button>
 			{path === "/rules" ? (
 				<Link to="/game">
 					<img src={closeIcon} alt="Close rules" className="nav__link__icon" />
