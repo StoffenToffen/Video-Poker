@@ -22,26 +22,31 @@ const Home = () => {
 				</button>
 			) : (
 				<div className="home__container">
-					<label htmlFor="username" className="home__label">
-						Register new account
-						<div className="home__input-wrapper">
-							<input
-								type="text"
-								id="username"
-								autoComplete="username"
-								placeholder="John Doe"
-								className="home__input"
-							/>
-
-							<Link to="/rules" className="home__input__link">
-								<img
-									src={arrowIcon}
-									alt="arrow"
-									className="home__input__link__icon"
+					<form action="">
+						<label htmlFor="username" className="home__label">
+							Register new account
+							<div className="home__input-wrapper">
+								<input
+									type="text"
+									id="username"
+									autoComplete="username"
+									min={2}
+									max={20}
+									required
+									placeholder="John Doe"
+									className="home__input"
 								/>
-							</Link>
-						</div>
-					</label>
+
+								<button type="submit" className="home__input__btn">
+									<img
+										src={arrowIcon}
+										alt="arrow"
+										className="home__input__btn__icon"
+									/>
+								</button>
+							</div>
+						</label>
+					</form>
 
 					<div className="home__divider">
 						<span className="home__divider__line" />

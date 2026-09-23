@@ -59,7 +59,7 @@
   font-size: 1rem;
 }
 
-.home__input__link {
+.home__input__btn {
   background-color: var(--color-secondary);
   border: 2px solid var(--color-secondary);
   height: 2.5rem;
@@ -71,7 +71,7 @@
   }
 }
 
-.home__input__link__icon {
+.home__input__btn__icon {
   padding: 0.6rem;
   height: 100%;
 }
