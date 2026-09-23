@@ -40,7 +40,7 @@
   gap: 2rem;
   font-size: 1.2rem;
   font-weight: 500;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .home__input-wrapper {
@@ -74,6 +74,11 @@
 .home__input__btn__icon {
   padding: 0.6rem;
   height: 100%;
+}
+
+.home__error {
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
 .home__divider {

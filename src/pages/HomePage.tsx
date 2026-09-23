@@ -1,11 +1,33 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import arrowIcon from "../assets/arrow.svg";
+import { useGameStore } from "../zustand/gameStore";
 
 import "./HomePage.css";
 
 const Home = () => {
 	const [showLogin, setShowLogin] = useState(false);
+	const [error, setError] = useState("");
+
+	const players = useGameStore((state) => state.players);
+	const register = useGameStore((state) => state.register);
+
+	const navigate = useNavigate();
+
+	/**
+	 * @description checks the username from the form and either throws an error, or creates and signs in the user
+	 * @param formData as a username
+	 */
+	const registerUser = (formData: FormData) => {
+		const username = String(formData.get("username"));
+
+		if (players.find((player) => player.name === username))
+			return setError("A user with the same name already exists");
+		else {
+			register(username);
+			navigate("/rules");
+		}
+	};
 
 	return (
 		<main className="container">
@@ -22,16 +44,17 @@ const Home = () => {
 				</button>
 			) : (
 				<div className="home__container">
-					<form action="">
+					<form action={registerUser}>
 						<label htmlFor="username" className="home__label">
 							Register new account
 							<div className="home__input-wrapper">
 								<input
 									type="text"
 									id="username"
+									name="username"
 									autoComplete="username"
-									min={2}
-									max={20}
+									minLength={2}
+									maxLength={20}
 									required
 									placeholder="John Doe"
 									className="home__input"
@@ -46,6 +69,8 @@ const Home = () => {
 								</button>
 							</div>
 						</label>
+
+						<div className="home__error">{error}</div>
 					</form>
 
 					<div className="home__divider">
@@ -56,35 +81,20 @@ const Home = () => {
 
 					<span className="home__subtext">Pick an existing user</span>
 
-					<ul className="home__users">
-						<li>
-							<button type="button" className="home__user__btn">
-								<span>John</span>
-								<span>$90</span>
-							</button>
-						</li>
-
-						<li>
-							<button type="button" className="home__user__btn">
-								<span>Mark</span>
-								<span>$20</span>
-							</button>
-						</li>
-
-						<li>
-							<button type="button" className="home__user__btn">
-								<span>Loffen</span>
-								<span>$26</span>
-							</button>
-						</li>
-
-						<li>
-							<button type="button" className="home__user__btn">
-								<span>Bernt</span>
-								<span>$120</span>
-							</button>
-						</li>
-					</ul>
+					{players.length ? (
+						<ul className="home__users">
+							{players.map((player) => (
+								<li key={player.name}>
+									<button type="button" className="home__user__btn">
+										<span>{player.name}</span>
+										<span>${player.balance}</span>
+									</button>
+								</li>
+							))}
+						</ul>
+					) : (
+						<span>No users yet</span>
+					)}
 				</div>
 			)}
 		</main>
