@@ -3,6 +3,11 @@ import { persist } from "zustand/middleware";
 import { getPayout, getRank } from "../functions";
 import type { PlayingCardType, PokerHandType } from "../types";
 
+interface PlayerType {
+  name: string;
+  balance: number;
+}
+
 interface GameStore {
   deck: PlayingCardType[];
   hand: PlayingCardType[];
@@ -10,10 +15,8 @@ interface GameStore {
   selectedCards: PlayingCardType[];
   rank: string;
   message: string;
-  player: {
-    name: string;
-    balance: number;
-  };
+  currentPlayer: PlayerType;
+  players: PlayerType[];
 
   startGame: (newDeck: PlayingCardType[]) => void;
   endGame: (selectedCards: PlayingCardType[]) => void;
@@ -21,7 +24,8 @@ interface GameStore {
   setSelectedCards: (card: PlayingCardType) => void;
   deselectCards: () => void;
   setMessage: (newMessage: string) => void;
-  setPlayer: (playerInfo: { name: string; balance: number }) => void;
+  setCurrentPlayer: (playerInfo: PlayerType) => void;
+  register: (name: string) => void;
   updateBalance: (change: number) => void;
 }
 
@@ -34,10 +38,11 @@ export const useGameStore = create<GameStore>()(
       selectedCards: [],
       rank: "",
       message: "",
-      player: {
+      currentPlayer: {
         name: "Joe",
         balance: 100,
       },
+      players: [],
 
       /**
        * @description Sets five cards to the hand and the rest to the deck, then gets the new hand's rank
@@ -114,26 +119,36 @@ export const useGameStore = create<GameStore>()(
 
       /**
        * @param playerInfo as name and balance
-       * @returns player
+       * @returns currentPlayer
        */
-      setPlayer: (playerInfo) =>
+      setCurrentPlayer: (playerInfo) =>
         set(() => ({
-          player: {
+          currentPlayer: {
             name: playerInfo.name,
             balance: playerInfo.balance,
           },
         })),
 
       /**
+       * @param newPlayer as the new player to add
+       * @returns players and currentPlayer
+       */
+      register: (newName) =>
+        set((state) => ({
+          players: [...state.players, { name: newName, balance: 100 }],
+          currentPlayer: { name: newName, balance: 100 },
+        })),
+
+      /**
        * @description Updates the player's balance
        * @param change as the amount to change the balance by
-       * @returns player
+       * @returns currentPlayer
        */
       updateBalance: (change) =>
         set((state) => ({
-          player: {
-            ...state.player,
-            balance: state.player.balance + change,
+          currentPlayer: {
+            ...state.currentPlayer,
+            balance: state.currentPlayer.balance + change,
           },
         })),
     }),

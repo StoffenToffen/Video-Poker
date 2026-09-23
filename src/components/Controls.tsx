@@ -5,7 +5,7 @@ const Controls = () => {
 	const bet = useGameStore((state) => state.bet);
 	const selectedCards = useGameStore((state) => state.selectedCards);
 	const message = useGameStore((state) => state.message);
-	const player = useGameStore((state) => state.player);
+	const currentPlayer = useGameStore((state) => state.currentPlayer);
 	const startGame = useGameStore((state) => state.startGame);
 	const endGame = useGameStore((state) => state.endGame);
 	const setBet = useGameStore((state) => state.setBet);
@@ -64,7 +64,7 @@ const Controls = () => {
 				<button
 					type="button"
 					onClick={() => {
-						player.balance < bet
+						currentPlayer.balance < bet
 							? setMessage("ur broke lmao")
 							: (deselectCards(),
 								createDeck(),

@@ -8,7 +8,7 @@ import "./GamePage.css";
 const Game = () => {
 	const hand = useGameStore((state) => state.hand);
 	const bet = useGameStore((state) => state.bet);
-	const player = useGameStore((state) => state.player);
+	const currentPlayer = useGameStore((state) => state.currentPlayer);
 	const rank = useGameStore((state) => state.rank);
 	const message = useGameStore((state) => state.message);
 
@@ -26,7 +26,7 @@ const Game = () => {
 		<main className="container--md">
 			<div className="counter container--sm">
 				<span>Bet: ${bet}</span>
-				<span>${player.balance}</span>
+				<span>${currentPlayer.balance}</span>
 			</div>
 
 			{message && (
