@@ -53,7 +53,7 @@ const Card = ({ card }: { card: PlayingCardType }) => {
 			type="button"
 			onClick={() => setSelectedCards(card)}
 			disabled={!!message}
-			className={`card ${selectedCards.includes(card) && "card--selected"}`}
+			className={`card ${selectedCards.some((selectedCard) => selectedCard.id === card.id) && "card--selected"}`}
 		>
 			<span className="card__number">{valueToShow(card.value)}</span>
 

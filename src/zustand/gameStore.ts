@@ -68,7 +68,9 @@ export const useGameStore = create<GameStore>()(
         set((state) => {
           const hand = [
             ...state.currentPlayer.hand.filter((card) =>
-              state.currentPlayer.selectedCards.includes(card),
+              state.currentPlayer.selectedCards.some(
+                (selectedCard) => selectedCard.id === card.id,
+              ),
             ),
           ];
           const deck = [...state.currentPlayer.deck];
@@ -121,9 +123,11 @@ export const useGameStore = create<GameStore>()(
         set((state) => ({
           currentPlayer: {
             ...state.currentPlayer,
-            selectedCards: state.currentPlayer.selectedCards.includes(card)
+            selectedCards: state.currentPlayer.selectedCards.some(
+              (selectedCard) => selectedCard.id === card.id,
+            )
               ? state.currentPlayer.selectedCards.filter(
-                  (selectedCard) => selectedCard !== card,
+                  (selectedCard) => selectedCard.id !== card.id,
                 )
               : [...state.currentPlayer.selectedCards, card],
           },
