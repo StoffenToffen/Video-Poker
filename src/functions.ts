@@ -4,7 +4,7 @@ import type { PlayingCardType, PokerHandType } from "./types";
  * @description Sorts the values of the player's hand and checks for each possible poker hand
  * @param hand as the player's current five cards
  */
-export const getRank = (hand: PlayingCardType[]): string => {
+export const getRank = (hand: PlayingCardType[]): PokerHandType => {
   let playersHand = "";
   const handValues: number[] = [];
   // Sort hand
@@ -54,7 +54,7 @@ export const getRank = (hand: PlayingCardType[]): string => {
     )
       playersHand = "straight";
   }
-  return playersHand;
+  return playersHand as PokerHandType;
 };
 
 /**
@@ -62,7 +62,7 @@ export const getRank = (hand: PlayingCardType[]): string => {
  * @param rank as the player's hand rank
  * @returns number
  */
-export const getPayout = (rank: PokerHandType) => {
+export const getPayout = (rank: PokerHandType): number => {
   const PokerHand: Record<PokerHandType, number> = {
     royalFlush: 250,
     straightFlush: 50,
