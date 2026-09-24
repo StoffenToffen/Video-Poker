@@ -89,7 +89,7 @@ const Home = () => {
 
 					{players.length ? (
 						<ul className="home__users">
-							{players.map((player) => (
+							{players.toReversed().map((player) => (
 								<li key={player.name}>
 									<button
 										type="button"
