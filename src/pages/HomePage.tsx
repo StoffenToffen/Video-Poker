@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import arrowIcon from "../assets/arrow.svg";
 import { useGameStore } from "../zustand/gameStore";
@@ -9,6 +9,7 @@ const Home = () => {
 	const [showLogin, setShowLogin] = useState(false);
 	const [error, setError] = useState("");
 
+	const name = useGameStore((state) => state.currentPlayer.name);
 	const players = useGameStore((state) => state.players);
 	const signIn = useGameStore((state) => state.signIn);
 	const register = useGameStore((state) => state.register);
@@ -29,6 +30,10 @@ const Home = () => {
 			navigate("/rules");
 		}
 	};
+
+	useEffect(() => {
+		if (name) navigate("/game");
+	}, [name, navigate]);
 
 	return (
 		<main className="container">

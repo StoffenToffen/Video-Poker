@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import Card from "../components/Card";
 import Controls from "../components/Controls";
 import Nav from "../components/Nav";
 import { useGameStore } from "../zustand/gameStore";
 
 import "./GamePage.css";
+import { useNavigate } from "react-router-dom";
 
 const Game = () => {
 	const hand = useGameStore((state) => state.currentPlayer.hand);
@@ -11,6 +13,9 @@ const Game = () => {
 	const balance = useGameStore((state) => state.currentPlayer.balance);
 	const rank = useGameStore((state) => state.currentPlayer.rank);
 	const message = useGameStore((state) => state.currentPlayer.message);
+	const name = useGameStore((state) => state.currentPlayer.name);
+
+	const navigate = useNavigate();
 
 	/**
 	 * @description Makes the first letter of a string uppercase, and adds spaces between capital letters
@@ -21,6 +26,10 @@ const Game = () => {
 		const newString = string[0].toUpperCase() + string.slice(1);
 		return newString.split(/(?=[A-Z])/).join(" ");
 	};
+
+	useEffect(() => {
+		if (!name) navigate("/");
+	}, [name, navigate]);
 
 	return (
 		<main className="container--md">
