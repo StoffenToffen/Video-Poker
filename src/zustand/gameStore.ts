@@ -63,7 +63,7 @@ export const useGameStore = create<GameStore>()(
       /**
        * @description Removes unselected cards from hand and adds up to five back from deck, then gets the new hand's rank and updates message
        * @param selectedCards as the cards selected from the hand
-       * @returns currentPlayer's hand, deck, rank, and message
+       * @returns currentPlayer's hand, deck, rank, message, and balance
        */
       endGame: (selectedCards) =>
         set((state) => {
@@ -80,11 +80,12 @@ export const useGameStore = create<GameStore>()(
 
           const rank = getRank(hand);
           let message = "";
+          let balance = state.currentPlayer.balance;
 
           if (rank) {
             const payout = getPayout(rank as PokerHandType);
 
-            state.updateBalance(payout * state.currentPlayer.bet);
+            balance += payout * state.currentPlayer.bet;
             message = `You won $${payout * state.currentPlayer.bet}`;
           } else message = "Game over";
 
@@ -95,6 +96,7 @@ export const useGameStore = create<GameStore>()(
               deck,
               rank,
               message,
+              balance,
             },
           };
         }),
