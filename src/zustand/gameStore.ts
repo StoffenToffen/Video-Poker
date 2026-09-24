@@ -19,7 +19,7 @@ interface GameStore {
   players: PlayerType[];
 
   startGame: (newDeck: PlayingCardType[]) => void;
-  endGame: (selectedCards: PlayingCardType[]) => void;
+  endGame: () => void;
   setBet: (number: number) => void;
   setSelectedCards: (card: PlayingCardType) => void;
   deselectCards: () => void;
@@ -62,14 +62,13 @@ export const useGameStore = create<GameStore>()(
 
       /**
        * @description Removes unselected cards from hand and adds up to five back from deck, then gets the new hand's rank and updates message
-       * @param selectedCards as the cards selected from the hand
        * @returns currentPlayer's hand, deck, rank, message, and balance
        */
-      endGame: (selectedCards) =>
+      endGame: () =>
         set((state) => {
           const hand = [
             ...state.currentPlayer.hand.filter((card) =>
-              selectedCards.includes(card),
+              state.currentPlayer.selectedCards.includes(card),
             ),
           ];
           const deck = [...state.currentPlayer.deck];

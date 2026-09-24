@@ -3,9 +3,6 @@ import { useGameStore } from "../zustand/gameStore";
 const Controls = () => {
 	const hand = useGameStore((state) => state.currentPlayer.hand);
 	const bet = useGameStore((state) => state.currentPlayer.bet);
-	const selectedCards = useGameStore(
-		(state) => state.currentPlayer.selectedCards,
-	);
 	const message = useGameStore((state) => state.currentPlayer.message);
 	const balance = useGameStore((state) => state.currentPlayer.balance);
 	const startGame = useGameStore((state) => state.startGame);
@@ -56,7 +53,7 @@ const Controls = () => {
 				<button
 					type="button"
 					onClick={() => {
-						endGame(selectedCards);
+						endGame();
 					}}
 					className="controls__btn--middle"
 				>
