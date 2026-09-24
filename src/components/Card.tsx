@@ -6,8 +6,10 @@ import type { PlayingCardType } from "../types";
 import { useGameStore } from "../zustand/gameStore";
 
 const Card = ({ card }: { card: PlayingCardType }) => {
-	const selectedCards = useGameStore((state) => state.selectedCards);
-	const message = useGameStore((state) => state.message);
+	const selectedCards = useGameStore(
+		(state) => state.currentPlayer.selectedCards,
+	);
+	const message = useGameStore((state) => state.currentPlayer.message);
 	const setSelectedCards = useGameStore((state) => state.setSelectedCards);
 
 	/**

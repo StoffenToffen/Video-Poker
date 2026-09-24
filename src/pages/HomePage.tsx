@@ -10,7 +10,7 @@ const Home = () => {
 	const [error, setError] = useState("");
 
 	const players = useGameStore((state) => state.players);
-	const setCurrentPlayer = useGameStore((state) => state.setCurrentPlayer);
+	const signIn = useGameStore((state) => state.signIn);
 	const register = useGameStore((state) => state.register);
 
 	const navigate = useNavigate();
@@ -89,7 +89,7 @@ const Home = () => {
 									<button
 										type="button"
 										onClick={() => {
-											setCurrentPlayer(player);
+											signIn(player);
 											navigate("/game");
 										}}
 										className="home__user__btn"

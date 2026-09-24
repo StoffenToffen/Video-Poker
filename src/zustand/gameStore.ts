@@ -4,17 +4,17 @@ import { getPayout, getRank } from "../functions";
 import type { PlayingCardType, PokerHandType } from "../types";
 
 interface PlayerType {
-  name: string;
-  balance: number;
-}
-
-interface GameStore {
   deck: PlayingCardType[];
   hand: PlayingCardType[];
   bet: number;
   selectedCards: PlayingCardType[];
   rank: string;
   message: string;
+  name: string;
+  balance: number;
+}
+
+interface GameStore {
   currentPlayer: PlayerType;
   players: PlayerType[];
 
@@ -24,21 +24,22 @@ interface GameStore {
   setSelectedCards: (card: PlayingCardType) => void;
   deselectCards: () => void;
   setMessage: (newMessage: string) => void;
-  setCurrentPlayer: (playerInfo: PlayerType) => void;
+  signIn: (playerInfo: PlayerType) => void;
   register: (name: string) => void;
+  signOut: () => void;
   updateBalance: (change: number) => void;
 }
 
 export const useGameStore = create<GameStore>()(
   persist(
     (set) => ({
-      deck: [],
-      hand: [],
-      bet: 1,
-      selectedCards: [],
-      rank: "",
-      message: "",
       currentPlayer: {
+        deck: [],
+        hand: [],
+        bet: 1,
+        selectedCards: [],
+        rank: "",
+        message: "",
         name: "",
         balance: 0,
       },
@@ -47,27 +48,31 @@ export const useGameStore = create<GameStore>()(
       /**
        * @description Sets five cards to the hand and the rest to the deck, then gets the new hand's rank
        * @param newDeck as a 52 card deck using PlayingCardType
-       * @returns hand, deck and rank
+       * @returns currentPlayer's hand, deck and rank
        */
       startGame: (newDeck) =>
-        set(() => {
+        set((state) => {
           const hand = newDeck.splice(-5);
           const deck = newDeck;
           const rank = getRank(hand);
-          return { hand, deck, rank };
+          return {
+            currentPlayer: { ...state.currentPlayer, hand, deck, rank },
+          };
         }),
 
       /**
        * @description Removes unselected cards from hand and adds up to five back from deck, then gets the new hand's rank and updates message
        * @param selectedCards as the cards selected from the hand
-       * @returns hand, deck, rank, and message
+       * @returns currentPlayer's hand, deck, rank, and message
        */
       endGame: (selectedCards) =>
         set((state) => {
           const hand = [
-            ...state.hand.filter((card) => selectedCards.includes(card)),
+            ...state.currentPlayer.hand.filter((card) =>
+              selectedCards.includes(card),
+            ),
           ];
-          const deck = [...state.deck];
+          const deck = [...state.currentPlayer.deck];
 
           while (hand.length < 5) {
             hand.push(deck.pop()!);
@@ -79,54 +84,74 @@ export const useGameStore = create<GameStore>()(
           if (rank) {
             const payout = getPayout(rank as PokerHandType);
 
-            state.updateBalance(payout * state.bet);
-            message = `You won $${payout * state.bet}`;
+            state.updateBalance(payout * state.currentPlayer.bet);
+            message = `You won $${payout * state.currentPlayer.bet}`;
           } else message = "Game over";
 
-          return { hand, deck, rank, message };
+          return {
+            currentPlayer: {
+              ...state.currentPlayer,
+              hand,
+              deck,
+              rank,
+              message,
+            },
+          };
         }),
 
       /**
        * @param number as the amount to change bet by
-       * @returns bet
+       * @returns currentPlayer's bet
        */
-      setBet: (number) => set((state) => ({ bet: state.bet + number })),
+      setBet: (number) =>
+        set((state) => ({
+          currentPlayer: {
+            ...state.currentPlayer,
+            bet: state.currentPlayer.bet + number,
+          },
+        })),
 
       /**
        * @description Adds or removes a card from hand to selectedCards
        * @param card as the clicked card in hand
-       * @returns selectedCards
+       * @returns currentPlayer's selectedCards
        */
       setSelectedCards: (card) =>
         set((state) => ({
-          selectedCards: state.selectedCards.includes(card)
-            ? state.selectedCards.filter(
-                (selectedCard) => selectedCard !== card,
-              )
-            : [...state.selectedCards, card],
+          currentPlayer: {
+            ...state.currentPlayer,
+            selectedCards: state.currentPlayer.selectedCards.includes(card)
+              ? state.currentPlayer.selectedCards.filter(
+                  (selectedCard) => selectedCard !== card,
+                )
+              : [...state.currentPlayer.selectedCards, card],
+          },
         })),
 
       /**
-       * @returns selectedCards
+       * @returns currentPlayer's selectedCards
        */
-      deselectCards: () => set(() => ({ selectedCards: [] })),
+      deselectCards: () =>
+        set((state) => ({
+          currentPlayer: { ...state.currentPlayer, selectedCards: [] },
+        })),
 
       /**
        * @param newMessage as the text to show
-       * @returns message
+       * @returns currentPayer's message
        */
-      setMessage: (newMessage) => set(() => ({ message: newMessage })),
+      setMessage: (newMessage) =>
+        set((state) => ({
+          currentPlayer: { ...state.currentPlayer, message: newMessage },
+        })),
 
       /**
        * @param playerInfo as name and balance
        * @returns currentPlayer
        */
-      setCurrentPlayer: (playerInfo) =>
+      signIn: (playerInfo) =>
         set(() => ({
-          currentPlayer: {
-            name: playerInfo.name,
-            balance: playerInfo.balance,
-          },
+          currentPlayer: playerInfo,
         })),
 
       /**
@@ -134,15 +159,54 @@ export const useGameStore = create<GameStore>()(
        * @returns players and currentPlayer
        */
       register: (newName) =>
-        set((state) => ({
-          players: [...state.players, { name: newName, balance: 100 }],
-          currentPlayer: { name: newName, balance: 100 },
-        })),
+        set((state) => {
+          const newPlayer = {
+            deck: [],
+            hand: [],
+            bet: 1,
+            selectedCards: [],
+            rank: "",
+            message: "",
+            name: newName,
+            balance: 100,
+          };
+
+          return {
+            players: [...state.players, newPlayer],
+            currentPlayer: newPlayer,
+          };
+        }),
+
+      /**
+       * @description saves the player's information, and signs them out
+       * @param playerLeaving as the player signing out
+       * @returns players and currentPlayer
+       */
+      signOut: () =>
+        set((state) => {
+          const newPlayers = state.players.filter(
+            (player) => player.name !== state.currentPlayer.name,
+          );
+
+          return {
+            players: [...newPlayers, state.currentPlayer],
+            currentPlayer: {
+              deck: [],
+              hand: [],
+              bet: 1,
+              selectedCards: [],
+              rank: "",
+              message: "",
+              name: "",
+              balance: 0,
+            },
+          };
+        }),
 
       /**
        * @description Updates the player's balance
        * @param change as the amount to change the balance by
-       * @returns currentPlayer
+       * @returns currentPlayer's balance
        */
       updateBalance: (change) =>
         set((state) => ({

@@ -6,7 +6,7 @@ import speakerOnIcon from "../assets/speaker-on.svg";
 import { useGameStore } from "../zustand/gameStore";
 
 const Nav = () => {
-	const setCurrentPlayer = useGameStore((state) => state.setCurrentPlayer);
+	const signOut = useGameStore((state) => state.signOut);
 
 	const navigate = useNavigate();
 	const path = location.pathname;
@@ -16,7 +16,7 @@ const Nav = () => {
 			<button
 				type="button"
 				onClick={() => {
-					setCurrentPlayer({ name: "", balance: 0 });
+					signOut();
 					navigate("/");
 				}}
 			>
