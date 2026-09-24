@@ -1,16 +1,21 @@
+import { useEffect } from "react";
 import Card from "../components/Card";
 import Controls from "../components/Controls";
 import Nav from "../components/Nav";
 import { useGameStore } from "../zustand/gameStore";
 
 import "./GamePage.css";
+import { useNavigate } from "react-router-dom";
 
 const Game = () => {
-	const hand = useGameStore((state) => state.hand);
-	const bet = useGameStore((state) => state.bet);
-	const player = useGameStore((state) => state.player);
-	const rank = useGameStore((state) => state.rank);
-	const message = useGameStore((state) => state.message);
+	const hand = useGameStore((state) => state.currentPlayer.hand);
+	const bet = useGameStore((state) => state.currentPlayer.bet);
+	const balance = useGameStore((state) => state.currentPlayer.balance);
+	const rank = useGameStore((state) => state.currentPlayer.rank);
+	const message = useGameStore((state) => state.currentPlayer.message);
+	const name = useGameStore((state) => state.currentPlayer.name);
+
+	const navigate = useNavigate();
 
 	/**
 	 * @description Makes the first letter of a string uppercase, and adds spaces between capital letters
@@ -22,11 +27,15 @@ const Game = () => {
 		return newString.split(/(?=[A-Z])/).join(" ");
 	};
 
+	useEffect(() => {
+		if (!name) navigate("/");
+	}, [name, navigate]);
+
 	return (
 		<main className="container--md">
 			<div className="counter container--sm">
 				<span>Bet: ${bet}</span>
-				<span>${player.balance}</span>
+				<span>${balance}</span>
 			</div>
 
 			{message && (

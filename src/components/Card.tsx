@@ -6,8 +6,10 @@ import type { PlayingCardType } from "../types";
 import { useGameStore } from "../zustand/gameStore";
 
 const Card = ({ card }: { card: PlayingCardType }) => {
-	const selectedCards = useGameStore((state) => state.selectedCards);
-	const message = useGameStore((state) => state.message);
+	const selectedCards = useGameStore(
+		(state) => state.currentPlayer.selectedCards,
+	);
+	const message = useGameStore((state) => state.currentPlayer.message);
 	const setSelectedCards = useGameStore((state) => state.setSelectedCards);
 
 	/**
@@ -51,7 +53,7 @@ const Card = ({ card }: { card: PlayingCardType }) => {
 			type="button"
 			onClick={() => setSelectedCards(card)}
 			disabled={!!message}
-			className={`card ${selectedCards.includes(card) && "card--selected"}`}
+			className={`card ${selectedCards.some((selectedCard) => selectedCard.id === card.id) && "card--selected"}`}
 		>
 			<span className="card__number">{valueToShow(card.value)}</span>
 

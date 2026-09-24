@@ -1,9 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Nav from "../components/Nav";
 
 import "./RulesPage.css";
+import { useEffect } from "react";
+import { useGameStore } from "../zustand/gameStore";
 
 const Rules = () => {
+	const name = useGameStore((state) => state.currentPlayer.name);
+
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (!name) navigate("/");
+	}, [name, navigate]);
+
 	return (
 		<main className="container">
 			<div className="rules-container container--md">

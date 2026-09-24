@@ -1,11 +1,10 @@
 import { useGameStore } from "../zustand/gameStore";
 
 const Controls = () => {
-	const hand = useGameStore((state) => state.hand);
-	const bet = useGameStore((state) => state.bet);
-	const selectedCards = useGameStore((state) => state.selectedCards);
-	const message = useGameStore((state) => state.message);
-	const player = useGameStore((state) => state.player);
+	const hand = useGameStore((state) => state.currentPlayer.hand);
+	const bet = useGameStore((state) => state.currentPlayer.bet);
+	const message = useGameStore((state) => state.currentPlayer.message);
+	const balance = useGameStore((state) => state.currentPlayer.balance);
 	const startGame = useGameStore((state) => state.startGame);
 	const endGame = useGameStore((state) => state.endGame);
 	const setBet = useGameStore((state) => state.setBet);
@@ -54,7 +53,7 @@ const Controls = () => {
 				<button
 					type="button"
 					onClick={() => {
-						endGame(selectedCards);
+						endGame();
 					}}
 					className="controls__btn--middle"
 				>
@@ -64,7 +63,7 @@ const Controls = () => {
 				<button
 					type="button"
 					onClick={() => {
-						player.balance < bet
+						balance < bet
 							? setMessage("ur broke lmao")
 							: (deselectCards(),
 								createDeck(),
