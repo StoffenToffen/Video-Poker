@@ -81,6 +81,10 @@ button {
 .nav__link__icon {
   filter: invert(1);
   width: 40px;
+
+  &:hover {
+    filter: invert(0.8);
+  }
 }
 
 .container {
@@ -97,4 +101,15 @@ button {
 
 .container--md {
   max-width: 800px;
+}
+
+.sr-only {
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
 }

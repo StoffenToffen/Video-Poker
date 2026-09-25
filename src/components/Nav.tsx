@@ -15,6 +15,7 @@ const Nav = () => {
 		<nav className={`nav container--sm ${path === "/rules" && "nav--rounded"}`}>
 			<button
 				type="button"
+				title="Log out"
 				onClick={() => {
 					signOut();
 					navigate("/");
@@ -22,16 +23,18 @@ const Nav = () => {
 			>
 				<img src={logoutIcon} alt="Log out" className="nav__link__icon" />
 			</button>
+
 			{path === "/rules" ? (
-				<Link to="/game">
+				<Link to="/game" title="Close rules">
 					<img src={closeIcon} alt="Close rules" className="nav__link__icon" />
 				</Link>
 			) : (
-				<Link to="/rules">
+				<Link to="/rules" title="Rules">
 					<img src={bookIcon} alt="Rules" className="nav__link__icon" />
 				</Link>
 			)}
-			<button type="button">
+
+			<button type="button" title="Sound on">
 				<img src={speakerOnIcon} alt="Sound on" className="nav__link__icon" />
 			</button>
 		</nav>

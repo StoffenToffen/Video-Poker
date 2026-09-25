@@ -23,16 +23,21 @@ const Game = () => {
 
 	return (
 		<main className="container--md">
+			<h1 className="game-title">Poker</h1>
+
 			<div className="counter container--sm">
 				<CurrentBet />
 				<TotalCoins />
 			</div>
 
-			{message && (
-				<div className="message">
-					<span>{message}</span>
-				</div>
-			)}
+			<div
+				role="status"
+				aria-live="polite"
+				aria-atomic="true"
+				className={`message ${!message && "sr-only"}`}
+			>
+				<span>{message}</span>
+			</div>
 
 			<div className="cards-container">
 				<HandRank />

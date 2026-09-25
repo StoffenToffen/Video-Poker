@@ -1,13 +1,25 @@
+.game-title {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  font-family: var(--font-heading);
+  padding-top: 1rem;
+}
+
 .counter {
+  position: relative;
+  z-index: 2;
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
-  padding: 2rem 2rem 0;
+  padding: 0 2rem 0;
   font-size: 1.5rem;
   font-weight: 500;
 }
 
 .poker-hand {
+  position: relative;
+  z-index: 2;
   text-align: center;
   font-size: 1.5rem;
   font-weight: 500;
@@ -29,7 +41,7 @@
   & span {
     background-color: var(--color-secondary);
     font-family: var(--font-heading);
-    margin-bottom: 3rem;
+    margin-top: 4rem;
     padding: 0.5rem 1rem;
     border-radius: 1rem;
   }

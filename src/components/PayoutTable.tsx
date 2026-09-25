@@ -3,8 +3,10 @@ const PayoutTable = () => {
 		<table className="rules__table container--sm">
 			<thead className="rules__table__header">
 				<tr>
-					<th>Hand ranks</th>
-					<th className="rules__table__cell--right">Payout</th>
+					<th scope="col">Hand ranks</th>
+					<th scope="col" className="rules__table__cell--right">
+						Payout
+					</th>
 				</tr>
 			</thead>
 			<tbody>

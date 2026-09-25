@@ -41,6 +41,7 @@ const Controls = () => {
 		<div className="controls container--sm">
 			<button
 				type="button"
+				aria-label="bet minus"
 				disabled={bet < 2 || (!message && !!hand.length)}
 				onClick={() => setBet(-1)}
 				className="controls__btn--left"
@@ -74,6 +75,7 @@ const Controls = () => {
 
 			<button
 				type="button"
+				aria-label="bet plus"
 				disabled={bet > 4 || (!message && !!hand.length)}
 				onClick={() => setBet(1)}
 				className="controls__btn--right"
