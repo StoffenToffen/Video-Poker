@@ -5,6 +5,11 @@ import spadesIcon from "../assets/spades.svg";
 import type { PlayingCardType } from "../types";
 import { useGameStore } from "../zustand/gameStore";
 
+const faces = import.meta.glob<string>("../assets/faces/*.PNG", {
+	eager: true,
+	import: "default",
+});
+
 const Card = ({ card }: { card: PlayingCardType }) => {
 	const selectedCards = useGameStore(
 		(state) => state.currentPlayer.selectedCards,
@@ -48,24 +53,41 @@ const Card = ({ card }: { card: PlayingCardType }) => {
 		}
 	};
 
+	const faceIDs: Record<string, string> = Object.fromEntries(
+		Object.entries(faces).map(([path, url]) => {
+			return [path.split(/[/.]+/).at(-2), url];
+		}),
+	);
+
 	return (
 		<button
 			type="button"
 			onClick={() => setSelectedCards(card)}
 			disabled={!!message}
-			className={`card ${selectedCards.some((selectedCard) => selectedCard.id === card.id) && "card--selected"}`}
+			className={`card ${selectedCards.some((selectedCard) => selectedCard.id === card.id) ? "card--selected" : ""}`}
+			style={{
+				backgroundImage: faceIDs[card.id] ? `url("${faceIDs[card.id]}")` : "",
+			}}
 		>
-			<span className="card__number">{valueToShow(card.value)}</span>
-
-			<div className="card__icons">
+			<div className="card__identifiers">
+				<span className="card__number">{valueToShow(card.value)}</span>
 				<img
 					src={symbolToShow(card.symbol)}
 					alt={card.symbol}
-					className="card__icons__icon"
+					className="card__icon"
 				/>
 			</div>
 
-			<span className="card__number">{valueToShow(card.value)}</span>
+			<div />
+
+			<div className="card__identifiers">
+				<span className="card__number">{valueToShow(card.value)}</span>
+				<img
+					src={symbolToShow(card.symbol)}
+					alt={card.symbol}
+					className="card__icon"
+				/>
+			</div>
 		</button>
 	);
 };

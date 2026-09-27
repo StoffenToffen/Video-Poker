@@ -12,6 +12,7 @@ interface PlayerType {
   message: string;
   name: string;
   balance: number;
+  discards: PlayingCardType[];
 }
 
 interface GameStore {
@@ -22,9 +23,8 @@ interface GameStore {
   endGame: () => void;
   setBet: (number: number) => void;
   setSelectedCards: (card: PlayingCardType) => void;
-  deselectCards: () => void;
   setMessage: (newMessage: string) => void;
-  signIn: (playerInfo: PlayerType) => void;
+  signIn: (newPlayer: PlayerType) => void;
   register: (name: string) => void;
   signOut: () => void;
   updateBalance: (change: number) => void;
@@ -42,13 +42,14 @@ export const useGameStore = create<GameStore>()(
         message: "",
         name: "",
         balance: 0,
+        discards: [],
       },
       players: [],
 
       /**
-       * @description Sets five cards to the hand and the rest to the deck, then gets the new hand's rank
+       * @description Sets five cards to the hand and the rest to the deck, then gets the new hand's rank and resets selectedCards and discards
        * @param newDeck as a 52 card deck using PlayingCardType
-       * @returns currentPlayer's hand, deck and rank
+       * @returns currentPlayer's hand, deck, rank, selectedCards, and discards
        */
       startGame: (newDeck) =>
         set((state) => {
@@ -56,23 +57,34 @@ export const useGameStore = create<GameStore>()(
           const deck = newDeck;
           const rank = getRank(hand);
           return {
-            currentPlayer: { ...state.currentPlayer, hand, deck, rank },
+            currentPlayer: {
+              ...state.currentPlayer,
+              hand,
+              deck,
+              rank,
+              selectedCards: [],
+              discards: [],
+            },
           };
         }),
 
       /**
        * @description Removes unselected cards from hand and adds up to five back from deck, then gets the new hand's rank and updates message
-       * @returns currentPlayer's hand, deck, rank, message, and balance
+       * @returns currentPlayer's hand, deck, rank, message, balance, and discards
        */
       endGame: () =>
         set((state) => {
-          const hand = [
-            ...state.currentPlayer.hand.filter((card) =>
-              state.currentPlayer.selectedCards.some(
+          const discards = state.currentPlayer.hand.filter(
+            (card) =>
+              !state.currentPlayer.selectedCards.some(
                 (selectedCard) => selectedCard.id === card.id,
               ),
+          );
+          const hand = state.currentPlayer.hand.filter((card) =>
+            state.currentPlayer.selectedCards.some(
+              (selectedCard) => selectedCard.id === card.id,
             ),
-          ];
+          );
           const deck = [...state.currentPlayer.deck];
 
           while (hand.length < 5) {
@@ -98,6 +110,7 @@ export const useGameStore = create<GameStore>()(
               rank,
               message,
               balance,
+              discards,
             },
           };
         }),
@@ -134,14 +147,6 @@ export const useGameStore = create<GameStore>()(
         })),
 
       /**
-       * @returns currentPlayer's selectedCards
-       */
-      deselectCards: () =>
-        set((state) => ({
-          currentPlayer: { ...state.currentPlayer, selectedCards: [] },
-        })),
-
-      /**
        * @param newMessage as the text to show
        * @returns currentPayer's message
        */
@@ -151,12 +156,12 @@ export const useGameStore = create<GameStore>()(
         })),
 
       /**
-       * @param playerInfo as name and balance
+       * @param newPlayer as the new user to sign in
        * @returns currentPlayer
        */
-      signIn: (playerInfo) =>
+      signIn: (newPlayer) =>
         set(() => ({
-          currentPlayer: playerInfo,
+          currentPlayer: newPlayer,
         })),
 
       /**
@@ -174,6 +179,7 @@ export const useGameStore = create<GameStore>()(
             message: "",
             name: newName,
             balance: 100,
+            discards: [],
           };
 
           return {
@@ -204,6 +210,7 @@ export const useGameStore = create<GameStore>()(
               message: "",
               name: "",
               balance: 0,
+              discards: [],
             },
           };
         }),

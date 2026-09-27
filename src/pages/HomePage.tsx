@@ -69,14 +69,21 @@ const Home = () => {
 								<button type="submit" className="home__input__btn">
 									<img
 										src={arrowIcon}
-										alt="arrow"
+										alt="register"
 										className="home__input__btn__icon"
 									/>
 								</button>
 							</div>
 						</label>
 
-						<div className="home__error">{error}</div>
+						<div
+							role="status"
+							aria-live="polite"
+							aria-atomic="true"
+							className="home__error"
+						>
+							{error}
+						</div>
 					</form>
 
 					<div className="home__divider">
@@ -100,7 +107,8 @@ const Home = () => {
 										className="home__user__btn"
 									>
 										<span>{player.name}</span>
-										<span>${player.balance}</span>
+										<span aria-hidden>${player.balance}</span>
+										<span className="sr-only">balance: ${player.balance}</span>
 									</button>
 								</li>
 							))}

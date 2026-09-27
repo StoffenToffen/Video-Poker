@@ -8,7 +8,6 @@ const Controls = () => {
 	const startGame = useGameStore((state) => state.startGame);
 	const endGame = useGameStore((state) => state.endGame);
 	const setBet = useGameStore((state) => state.setBet);
-	const deselectCards = useGameStore((state) => state.deselectCards);
 	const setMessage = useGameStore((state) => state.setMessage);
 	const updateBalance = useGameStore((state) => state.updateBalance);
 
@@ -42,6 +41,7 @@ const Controls = () => {
 		<div className="controls container--sm">
 			<button
 				type="button"
+				aria-label="bet minus"
 				disabled={bet < 2 || (!message && !!hand.length)}
 				onClick={() => setBet(-1)}
 				className="controls__btn--left"
@@ -65,10 +65,7 @@ const Controls = () => {
 					onClick={() => {
 						balance < bet
 							? setMessage("ur broke lmao")
-							: (deselectCards(),
-								createDeck(),
-								updateBalance(-bet),
-								setMessage(""));
+							: (createDeck(), updateBalance(-bet), setMessage(""));
 					}}
 					className="controls__btn--middle"
 				>
@@ -78,6 +75,7 @@ const Controls = () => {
 
 			<button
 				type="button"
+				aria-label="bet plus"
 				disabled={bet > 4 || (!message && !!hand.length)}
 				onClick={() => setBet(1)}
 				className="controls__btn--right"
