@@ -87,6 +87,10 @@ button {
   }
 }
 
+.btn--disabled {
+  cursor: not-allowed;
+}
+
 .container {
   display: flex;
   flex-direction: column;

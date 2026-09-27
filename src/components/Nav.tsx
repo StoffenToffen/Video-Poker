@@ -34,7 +34,7 @@ const Nav = () => {
 				</Link>
 			)}
 
-			<button type="button" title="Sound on">
+			<button type="button" title="Sound on" disabled className="btn--disabled">
 				<img src={speakerOnIcon} alt="Sound on" className="nav__link__icon" />
 			</button>
 		</nav>
